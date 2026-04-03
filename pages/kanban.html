@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CI | Panel de Gestión</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        wood: '#3D2B1F',
+                        dark: '#1A1A1A',
+                        gold: '#C5A059',
+                        light: '#FBFBFB',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Manrope', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Ocultar scrollbars para diseño más limpio */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #d1d5db; }
+
+        .kanban-column { min-width: 300px; }
+        .card-drag { cursor: grab; }
+        .card-drag:active { cursor: grabbing; }
+        
+        .drag-over { background-color: #f3f4f6; border: 2px dashed #C5A059; }
+    </style>
+</head>
+<body class="bg-light text-dark font-sans antialiased h-screen flex overflow-hidden selection:bg-gold selection:text-white">
+
+    <!-- SIDEBAR -->
+    <aside class="w-64 bg-white border-r border-gray-200 hidden md:flex flex-col flex-shrink-0">
+        <div class="h-20 flex items-center px-6 border-b border-gray-100">
+            <a href="#" class="font-heading font-extrabold text-2xl tracking-tighter text-dark flex items-center gap-2">
+                <span class="bg-wood text-white px-2 py-1 rounded-md text-xl leading-none">C</span>I<span class="text-gold">.</span>
+            </a>
+        </div>
+        
+        <nav class="flex-1 p-4 space-y-1">
+            <p class="px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4 mt-2">Menú Principal</p>
+            
+            <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-wood/5 text-wood font-medium transition-colors">
+                <i class="ph ph-kanban text-xl"></i> Proyectos
+            </a>
+            <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-500 hover:bg-gray-50 hover:text-dark font-medium transition-colors">
+                <i class="ph ph-users text-xl"></i> Clientes
+            </a>
+            <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-500 hover:bg-gray-50 hover:text-dark font-medium transition-colors">
+                <i class="ph ph-file-text text-xl"></i> Cotizaciones
+            </a>
+            <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-500 hover:bg-gray-50 hover:text-dark font-medium transition-colors">
+                <i class="ph ph-chair text-xl"></i> Catálogo Web
+            </a>
+        </nav>
+
+        <div class="p-4 border-t border-gray-100">
+            <div class="flex items-center gap-3 px-3 py-2">
+                <div class="w-9 h-9 rounded-full bg-wood text-white flex items-center justify-center font-bold text-sm">
+                    IS
+                </div>
+                <div>
+                    <p class="font-medium text-sm text-dark">Israel</p>
+                    <p class="text-xs text-gray-500">Administrador</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-1 flex flex-col h-full overflow-hidden">
+        
+        <!-- HEADER -->
+        <header class="h-20 bg-white border-b border-gray-200 flex items-center justify-between px-6 flex-shrink-0">
+            <div>
+                <h1 class="font-heading font-bold text-xl text-dark">Tablero de Proyectos</h1>
+                <p class="text-xs text-gray-500 mt-0.5" id="current-date">Cargando fecha...</p>
+            </div>
+            
+            <button onclick="openModal()" class="bg-wood text-white px-5 py-2.5 rounded-xl font-medium text-sm hover:bg-dark transition-colors shadow-sm flex items-center gap-2">
+                <i class="ph ph-plus-circle text-lg"></i> Nuevo Proyecto
+            </button>
+        </header>
+
+        <!-- KANBAN BOARD -->
+        <div class="flex-1 overflow-x-auto overflow-y-hidden p-6">
+            <div class="flex gap-6 h-full items-start" id="kanban-board">
+                
+                <!-- COLUMNA: NUEVOS / CONTACTO -->
+                <div class="kanban-column bg-gray-50/50 border border-gray-200 rounded-2xl flex flex-col h-full max-h-full" ondrop="drop(event)" ondragover="allowDrop(event)" id="col-nuevos">
+                    <div class="p-4 border-b border-gray-200 flex justify-between items-center bg-white/50 rounded-t-2xl">
+                        <h2 class="font-heading font-bold text-sm text-dark flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-blue-500"></span> Solicitudes
+                        </h2>
+                        <span class="text-xs font-semibold bg-white px-2 py-1 rounded-md shadow-sm border border-gray-100 count-badge">0</span>
+                    </div>
+                    <div class="p-3 flex-1 overflow-y-auto space-y-3 card-container" id="nuevos">
+                        <!-- Tarjetas aquí -->
+                    </div>
+                </div>
+
+                <!-- COLUMNA: COTIZANDO / ESPERANDO ANTICIPO -->
+                <div class="kanban-column bg-gray-50/50 border border-gray-200 rounded-2xl flex flex-col h-full max-h-full" ondrop="drop(event)" ondragover="allowDrop(event)" id="col-cotizando">
+                    <div class="p-4 border-b border-gray-200 flex justify-between items-center bg-white/50 rounded-t-2xl">
+                        <h2 class="font-heading font-bold text-sm text-dark flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-gold"></span> Esperando Anticipo
+                        </h2>
+                        <span class="text-xs font-semibold bg-white px-2 py-1 rounded-md shadow-sm border border-gray-100 count-badge">0</span>
+                    </div>
+                    <div class="p-3 flex-1 overflow-y-auto space-y-3 card-container" id="cotizando">
+                        <!-- Tarjetas aquí -->
+                    </div>
+                </div>
+
+                <!-- COLUMNA: EN FABRICACIÓN -->
+                <div class="kanban-column bg-gray-50/50 border border-gray-200 rounded-2xl flex flex-col h-full max-h-full" ondrop="drop(event)" ondragover="allowDrop(event)" id="col-fabricacion">
+                    <div class="p-4 border-b border-gray-200 flex justify-between items-center bg-white/50 rounded-t-2xl">
+                        <h2 class="font-heading font-bold text-sm text-dark flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-wood"></span> En Taller
+                        </h2>
+                        <span class="text-xs font-semibold bg-white px-2 py-1 rounded-md shadow-sm border border-gray-100 count-badge">0</span>
+                    </div>
+                    <div class="p-3 flex-1 overflow-y-auto space-y-3 card-container" id="fabricacion">
+                        <!-- Tarjetas aquí -->
+                    </div>
+                </div>
+
+                <!-- COLUMNA: ENTREGADOS -->
+                <div class="kanban-column bg-gray-50/50 border border-gray-200 rounded-2xl flex flex-col h-full max-h-full" ondrop="drop(event)" ondragover="allowDrop(event)" id="col-entregados">
+                    <div class="p-4 border-b border-gray-200 flex justify-between items-center bg-white/50 rounded-t-2xl">
+                        <h2 class="font-heading font-bold text-sm text-dark flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-green-500"></span> Entregados (Pago final)
+                        </h2>
+                        <span class="text-xs font-semibold bg-white px-2 py-1 rounded-md shadow-sm border border-gray-100 count-badge">0</span>
+                    </div>
+                    <div class="p-3 flex-1 overflow-y-auto space-y-3 card-container" id="entregados">
+                        <!-- Tarjetas aquí -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- MODAL NUEVO PROYECTO -->
+    <div id="modal-proyecto" class="fixed inset-0 z-50 flex items-center justify-center hidden">
+        <div class="absolute inset-0 bg-dark/60 backdrop-blur-sm" onclick="closeModal()"></div>
+        <div class="relative bg-white w-full max-w-md rounded-2xl shadow-2xl p-6 m-4" id="modal-content">
+            <h3 class="font-heading font-bold text-xl text-dark mb-6">Añadir Nuevo Proyecto</h3>
+            
+            <form id="form-proyecto" onsubmit="addProject(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Nombre del Cliente</label>
+                    <input type="text" id="input-cliente" required class="w-full px-4 py-2 bg-light border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-wood">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Mueble / Descripción</label>
+                    <input type="text" id="input-mueble" required placeholder="Ej. Mesa de Comedor Roble" class="w-full px-4 py-2 bg-light border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-wood">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Presupuesto Estimado (MXN)</label>
+                    <input type="number" id="input-precio" required class="w-full px-4 py-2 bg-light border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-wood">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Estado</label>
+                    <select id="input-estado" class="w-full px-4 py-2 bg-light border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-wood">
+                        <option value="nuevos">Solicitud</option>
+                        <option value="cotizando">Esperando Anticipo</option>
+                        <option value="fabricacion">En Taller</option>
+                    </select>
+                </div>
+                <div class="pt-4 flex gap-3">
+                    <button type="button" onclick="closeModal()" class="flex-1 py-3 border border-gray-200 text-dark rounded-xl font-medium text-sm hover:bg-gray-50 transition-colors">Cancelar</button>
+                    <button type="submit" class="flex-1 bg-wood text-white py-3 rounded-xl font-medium text-sm hover:bg-dark transition-colors shadow-sm">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // Fecha actual
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('current-date').textContent = new Date().toLocaleDateString('es-ES', options);
+
+        // Formatear moneda
+        const formatMoney = (amount) => {
+            return new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' }).format(amount);
+        };
+
+        // Estado inicial de proyectos (Simulación de base de datos)
+        let projects = [
+            { id: '1', cliente: 'Alejandro Gómez', mueble: 'Librero Modular (Nogal)', precio: 12500, estado: 'nuevos' },
+            { id: '2', cliente: 'Sofía Martínez', mueble: 'Mesa de Comedor Minimalista', precio: 15000, estado: 'cotizando' },
+            { id: '3', cliente: 'Roberto H.', mueble: 'Consola Recibidor', precio: 5300, estado: 'fabricacion' },
+            { id: '4', cliente: 'Familia Pérez', mueble: 'Cama Matrimonial Parota', precio: 18000, estado: 'fabricacion' },
+            { id: '5', cliente: 'Mariana L.', mueble: 'Escritorio Home Office', precio: 8500, estado: 'entregados' }
+        ];
+
+        // Renderizar proyectos iniciales
+        document.addEventListener('DOMContentLoaded', renderBoard);
+
+        function renderBoard() {
+            // Limpiar columnas
+            document.querySelectorAll('.card-container').forEach(container => container.innerHTML = '');
+            
+            // Contadores
+            const counts = { nuevos: 0, cotizando: 0, fabricacion: 0, entregados: 0 };
+
+            projects.forEach(project => {
+                const column = document.getElementById(project.estado);
+                if(column) {
+                    column.innerHTML += createCardHTML(project);
+                    counts[project.estado]++;
+                }
+            });
+
+            // Actualizar badges
+            document.querySelectorAll('.kanban-column').forEach(col => {
+                const id = col.id.replace('col-', '');
+                col.querySelector('.count-badge').textContent = counts[id];
+            });
+        }
+
+        function createCardHTML(project) {
+            // Generar iniciales del cliente
+            const initials = project.cliente.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+            
+            return `
+                <div class="bg-white p-4 rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-gray-100 card-drag group hover:border-gold/30 transition-colors" draggable="true" ondragstart="drag(event)" id="card-${project.id}">
+                    <div class="flex justify-between items-start mb-3">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-gray-400 bg-gray-50 px-2 py-1 rounded">ID-${project.id.padStart(3, '0')}</span>
+                        <a href="https://wa.me/5215555555555" target="_blank" title="Contactar por WhatsApp" class="text-gray-300 hover:text-green-500 transition-colors">
+                            <i class="ph ph-whatsapp-logo text-lg"></i>
+                        </a>
+                    </div>
+                    
+                    <h3 class="font-heading font-bold text-sm text-dark mb-1 leading-tight">${project.mueble}</h3>
+                    <p class="text-wood font-semibold text-sm mb-4">${formatMoney(project.precio)}</p>
+                    
+                    <div class="flex items-center gap-2 pt-3 border-t border-gray-50">
+                        <div class="w-6 h-6 rounded-full bg-dark text-white flex items-center justify-center font-bold text-[9px]">
+                            ${initials}
+                        </div>
+                        <p class="text-xs text-gray-600 truncate">${project.cliente}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // --- LÓGICA DE DRAG & DROP (Arrastrar y Soltar) ---
+
+        function allowDrop(ev) {
+            ev.preventDefault();
+            // Efecto visual al arrastrar encima
+            if(ev.target.classList.contains('kanban-column')) {
+                 ev.target.classList.add('drag-over');
+            }
+        }
+
+        function drag(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+        }
+
+        function drop(ev) {
+            ev.preventDefault();
+            
+            // Limpiar efecto visual
+            document.querySelectorAll('.kanban-column').forEach(col => col.classList.remove('drag-over'));
+
+            const cardId = ev.dataTransfer.getData("text");
+            const cardElement = document.getElementById(cardId);
+            
+            // Encontrar la columna destino (puede ser el contenedor o un elemento hijo)
+            let dropZone = ev.target;
+            while (!dropZone.classList.contains('kanban-column') && dropZone.tagName !== 'BODY') {
+                dropZone = dropZone.parentElement;
+            }
+
+            if (dropZone.classList.contains('kanban-column')) {
+                const newState = dropZone.id.replace('col-', '');
+                const rawId = cardId.replace('card-', '');
+                
+                // Actualizar array de datos
+                const projectIndex = projects.findIndex(p => p.id === rawId);
+                if (projectIndex > -1) {
+                    projects[projectIndex].estado = newState;
+                }
+                
+                // Re-renderizar para actualizar contadores y vista
+                renderBoard();
+            }
+        }
+
+        // Remover clase hover si se arrastra fuera
+        document.addEventListener('dragover', (e) => {
+            document.querySelectorAll('.kanban-column').forEach(col => {
+                if(!col.contains(e.target)) col.classList.remove('drag-over');
+            });
+        });
+
+        // --- LÓGICA DE MODAL Y FORMULARIO ---
+
+        function openModal() {
+            document.getElementById('modal-proyecto').classList.remove('hidden');
+            document.getElementById('form-proyecto').reset();
+        }
+
+        function closeModal() {
+            document.getElementById('modal-proyecto').classList.add('hidden');
+        }
+
+        function addProject(event) {
+            event.preventDefault();
+            
+            const newProject = {
+                id: Date.now().toString().slice(-4), // ID simulado corto
+                cliente: document.getElementById('input-cliente').value,
+                mueble: document.getElementById('input-mueble').value,
+                precio: parseFloat(document.getElementById('input-precio').value),
+                estado: document.getElementById('input-estado').value
+            };
+
+            projects.push(newProject);
+            renderBoard();
+            closeModal();
+        }
+    </script>
+</body>
+</html>

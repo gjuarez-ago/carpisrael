@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CI | Tarjetas de Presentación</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        wood: '#3D2B1F',
+                        dark: '#1A1A1A',
+                        gold: '#C5A059',
+                        light: '#FBFBFB',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Manrope', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Estilos específicos para impresión */
+        @media print {
+            body { background: white !important; margin: 0; padding: 0; }
+            .no-print { display: none !important; }
+            .print-container { 
+                display: flex; 
+                flex-direction: column; 
+                gap: 20px; 
+                align-items: flex-start;
+                justify-content: flex-start;
+            }
+            .card { 
+                box-shadow: none !important; 
+                border: 1px solid #e5e7eb; /* Borde de corte */
+                page-break-inside: avoid;
+            }
+        }
+        
+        /* Proporción exacta de Tarjeta de Presentación (3.5 x 2 pulgadas) */
+        .card {
+            width: 1050px; /* Tamaño grande para alta resolución */
+            height: 600px;
+            transform: scale(0.45); /* Escala visual para el navegador */
+            transform-origin: top left;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans min-h-screen flex flex-col items-center py-10">
+
+    <!-- Barra de Herramientas (No se imprime) -->
+    <div class="no-print bg-white px-8 py-4 rounded-2xl shadow-sm border border-gray-200 mb-8 flex items-center gap-6 max-w-4xl w-full justify-between">
+        <div>
+            <h1 class="font-heading font-bold text-xl text-dark">Mockup de Tarjeta de Presentación</h1>
+            <p class="text-sm text-gray-500">Proporción estándar (3.5" x 2") de alta resolución.</p>
+        </div>
+        <button onclick="window.print()" class="bg-wood text-white px-6 py-3 rounded-xl font-medium hover:bg-dark transition-colors flex items-center gap-2 shadow-sm">
+            <i class="ph ph-printer text-xl"></i> Imprimir / Guardar PDF
+        </button>
+    </div>
+
+    <!-- Contenedor de Tarjetas -->
+    <div class="print-container flex flex-col gap-0 md:flex-row md:gap-[500px]"> <!-- Gap adaptado a la escala -->
+        
+        <!-- FRENTE DE LA TARJETA (Oscuro) -->
+        <div class="card bg-dark relative overflow-hidden shadow-2xl flex flex-col items-center justify-center group">
+            <!-- Textura/Fondo sutil -->
+            <div class="absolute inset-0 bg-gradient-to-br from-dark to-wood opacity-90"></div>
+            
+            <!-- Contenido Frontal -->
+            <div class="relative z-10 flex flex-col items-center">
+                <!-- Logo Grande -->
+                <div class="flex items-center gap-4 mb-4">
+                    <span class="bg-wood text-white px-5 py-2 rounded-xl text-7xl font-heading font-extrabold leading-none shadow-lg">C</span>
+                    <span class="text-7xl font-heading font-extrabold text-white">I<span class="text-gold">.</span></span>
+                </div>
+                
+                <h2 class="text-4xl font-heading font-bold tracking-tight text-white mb-2">Carpintería Israel</h2>
+                <div class="flex items-center gap-4">
+                    <div class="h-px w-12 bg-gold/50"></div>
+                    <p class="text-gold text-lg tracking-[0.4em] uppercase font-semibold">Muebles a Medida</p>
+                    <div class="h-px w-12 bg-gold/50"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- REVERSO DE LA TARJETA (Claro) -->
+        <div class="card bg-light relative shadow-2xl flex items-center border border-gray-200">
+            <!-- Columna Izquierda: Datos -->
+            <div class="flex-1 pl-16 py-12 pr-8 h-full flex flex-col justify-center border-r border-gray-200/60">
+                <div class="mb-10">
+                    <h2 class="font-heading font-extrabold text-5xl text-dark mb-2">Israel <span class="text-gray-400 font-medium">López</span></h2> <!-- Cambia López por su apellido real -->
+                    <p class="text-wood text-xl font-bold uppercase tracking-widest">Maestro Carpintero</p>
+                </div>
+                
+                <div class="space-y-6 text-2xl text-gray-600 font-medium">
+                    <p class="flex items-center gap-5">
+                        <i class="ph-fill ph-phone text-gold text-3xl"></i> 
+                        +52 55 1234 5678 <!-- Actualiza teléfono -->
+                    </p>
+                    <p class="flex items-center gap-5">
+                        <i class="ph-fill ph-envelope-simple text-gold text-3xl"></i> 
+                        contacto@carpinteriaisrael.meyisoft.com
+                    </p>
+                    <p class="flex items-center gap-5">
+                        <i class="ph-fill ph-map-pin text-gold text-3xl"></i> 
+                        Taller en Mérida, Yucatán <!-- Actualiza ubicación -->
+                    </p>
+                </div>
+            </div>
+
+            <!-- Columna Derecha: QR -->
+            <div class="w-[350px] h-full flex flex-col items-center justify-center bg-white p-12">
+                <!-- LOGO PEQUEÑO ARRIBA DEL QR -->
+                <div class="flex items-center gap-1 mb-6">
+                    <span class="bg-wood text-white px-2 py-1 rounded-md text-2xl font-heading font-extrabold leading-none">C</span>
+                    <span class="text-2xl font-heading font-extrabold text-dark">I<span class="text-gold">.</span></span>
+                </div>
+
+                <!-- CÓDIGO QR GENERADO DINÁMICAMENTE -->
+                <!-- La URL apunta directamente a tu subdominio -->
+                <div class="bg-white p-2 rounded-xl shadow-sm border border-gray-100 mb-6">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://www.carpinteriaisrael.meyisoft.com/&margin=0" alt="QR Web" class="w-48 h-48">
+                </div>
+
+                <p class="text-base text-gray-500 text-center uppercase tracking-widest font-bold leading-tight">
+                    Escanea para ver<br>nuestro catálogo
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
