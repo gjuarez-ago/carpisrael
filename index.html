@@ -56,7 +56,7 @@
         .sidebar-enter-active { transform: translateX(0); transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
     </style>
 </head>
-<body class="bg-light text-dark font-sans antialiased selection:bg-gold selection:text-white">
+<body class="bg-light text-dark font-sans antialiased selection:bg-gold selection:text-white pb-24 md:pb-0">
 
     <!-- LOADER -->
     <div id="loader" class="fixed inset-0 z-[100] bg-light flex items-center justify-center">
@@ -98,6 +98,24 @@
             <i class="ph ph-arrow-up text-xl"></i>
         </button>
     </aside>
+
+    <!-- MOBILE SOCIAL BAR -->
+    <div class="fixed inset-x-0 bottom-4 z-30 px-4 md:hidden">
+        <div class="mx-auto flex w-fit items-center gap-2 rounded-full border border-white/80 bg-white/95 px-3 py-2 shadow-[0_10px_30px_rgba(26,26,26,0.18)] backdrop-blur">
+            <a href="https://wa.me/5219851111691" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" class="flex h-11 w-11 items-center justify-center rounded-full bg-green-50 text-green-600 transition-colors hover:bg-green-500 hover:text-white">
+                <i class="ph ph-whatsapp-logo text-xl"></i>
+            </a>
+            <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="flex h-11 w-11 items-center justify-center rounded-full bg-rose-50 text-rose-500 transition-colors hover:bg-rose-500 hover:text-white">
+                <i class="ph ph-instagram-logo text-xl"></i>
+            </a>
+            <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="flex h-11 w-11 items-center justify-center rounded-full bg-blue-50 text-blue-600 transition-colors hover:bg-blue-600 hover:text-white">
+                <i class="ph ph-facebook-logo text-xl"></i>
+            </a>
+            <button onclick="window.scrollTo({ top: 0, behavior: 'smooth' })" aria-label="Volver arriba" class="flex h-11 w-11 items-center justify-center rounded-full bg-dark text-white transition-colors hover:bg-wood">
+                <i class="ph ph-arrow-up text-lg"></i>
+            </button>
+        </div>
+    </div>
 
     <!-- HERO -->
     <header class="relative h-[90vh] min-h-[600px] flex items-center justify-center overflow-hidden">
