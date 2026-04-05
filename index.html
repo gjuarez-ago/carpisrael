@@ -24,6 +24,7 @@
                         dark: '#1A1A1A',
                         gold: '#C5A059',
                         light: '#FBFBFB',
+                        ready: '#2E7D32', // Verde para stock
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
@@ -37,7 +38,7 @@
         }
     </script>
 
-    <!-- Custom CSS for Animations & Scrollbar -->
+    <!-- Custom CSS -->
     <style>
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #FBFBFB; }
@@ -46,15 +47,8 @@
 
         #loader { transition: opacity 0.5s ease-out; }
 
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
-        }
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
 
         .modal-enter { opacity: 0; transform: scale(0.95); }
         .modal-enter-active { opacity: 1; transform: scale(1); transition: all 0.3s ease-out; }
@@ -75,19 +69,12 @@
     <!-- NAVBAR -->
     <nav class="fixed w-full z-40 bg-light/80 backdrop-blur-md border-b border-gray-200/50 transition-all duration-300" id="navbar">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <!-- Logo -->
-            <a href="#" class="font-heading font-extrabold text-2xl tracking-tighter text-dark flex items-center gap-2" title="Carpintería Israel">
-                <!-- <span class="bg-wood text-white px-2 py-1 rounded-md text-xl leading-none">C</span>I<span class="text-gold">.</span> -->
-                <img src="images/ai_studio_code_1.svg" width="280px">
+            <a href="#" class="font-heading font-extrabold text-2xl tracking-tighter text-dark flex items-center gap-2">
+                <img src="./images/ai_studio_code_1.svg" width="253px">
             </a>
-            
-            <!-- Actions -->
             <div class="flex items-center gap-6">
                 <button onclick="document.getElementById('como-funciona').scrollIntoView()" class="hidden md:block text-sm font-medium hover:text-gold transition-colors">Proceso</button>
                 <button onclick="document.getElementById('catalogo').scrollIntoView()" class="hidden md:block text-sm font-medium hover:text-gold transition-colors">Catálogo</button>
-                <button onclick="document.getElementById('testimonios').scrollIntoView()" class="hidden lg:block text-sm font-medium hover:text-gold transition-colors">Testimonios</button>
-                
-                <!-- Cart Button -->
                 <button onclick="toggleCart()" class="relative p-2 rounded-full hover:bg-gray-100 transition-colors group">
                     <i class="ph ph-shopping-bag text-2xl text-dark group-hover:text-wood transition-colors"></i>
                     <span id="cart-badge" class="absolute top-0 right-0 bg-gold text-white text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center shadow-sm opacity-0 transition-opacity">0</span>
@@ -96,262 +83,270 @@
         </div>
     </nav>
 
-    <!-- HERO SECTION -->
+    <!-- QUICK SOCIAL BAR -->
+    <aside class="fixed right-4 top-1/2 -translate-y-1/2 z-30 hidden md:flex flex-col items-center gap-3">
+        <a href="https://wa.me/5219851111691" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" class="h-12 w-12 rounded-full bg-white/95 text-green-600 shadow-lg border border-white/80 flex items-center justify-center hover:-translate-y-1 hover:bg-green-500 hover:text-white transition-all duration-300">
+            <i class="ph ph-whatsapp-logo text-2xl"></i>
+        </a>
+        <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="h-12 w-12 rounded-full bg-white/95 text-rose-500 shadow-lg border border-white/80 flex items-center justify-center hover:-translate-y-1 hover:bg-rose-500 hover:text-white transition-all duration-300">
+            <i class="ph ph-instagram-logo text-2xl"></i>
+        </a>
+        <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="h-12 w-12 rounded-full bg-white/95 text-blue-600 shadow-lg border border-white/80 flex items-center justify-center hover:-translate-y-1 hover:bg-blue-600 hover:text-white transition-all duration-300">
+            <i class="ph ph-facebook-logo text-2xl"></i>
+        </a>
+        <button onclick="window.scrollTo({ top: 0, behavior: 'smooth' })" aria-label="Volver arriba" class="h-12 w-12 rounded-full bg-dark text-white shadow-lg flex items-center justify-center hover:-translate-y-1 hover:bg-wood transition-all duration-300">
+            <i class="ph ph-arrow-up text-xl"></i>
+        </button>
+    </aside>
+
+    <!-- HERO -->
     <header class="relative h-[90vh] min-h-[600px] flex items-center justify-center overflow-hidden">
-        <!-- Background Image -->
         <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1618220179428-22790b461013?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80')] bg-cover bg-center"></div>
-        <!-- Dark Overlay -->
         <div class="absolute inset-0 bg-gradient-to-b from-dark/80 via-dark/70 to-wood/95"></div>
         
         <div class="relative z-10 text-center px-6 max-w-4xl mx-auto flex flex-col items-center">
             <span class="text-gold font-bold tracking-[0.2em] text-xs md:text-sm uppercase mb-4 reveal delay-100">Carpintería Israel</span>
             <h1 class="text-5xl md:text-7xl font-heading font-extrabold text-white leading-[1.1] tracking-tight mb-6 reveal delay-200">
-                Fabricamos muebles<br><span class="text-light/90">a tu medida.</span>
+                Diseño que perdura<br><span class="text-light/90">hecho para ti.</span>
             </h1>
             <p class="text-lg md:text-xl text-gray-300 font-light max-w-2xl mx-auto mb-10 reveal delay-300">
-                Diseño minimalista, maderas sustentables y curado artesanal. Transforma tu espacio con piezas únicas creadas especialmente para ti.
+                Desde piezas listas para enviar hasta proyectos 100% a medida. Tu hogar merece la mejor madera.
             </p>
             <button onclick="document.getElementById('catalogo').scrollIntoView()" class="reveal delay-400 bg-white text-wood px-8 py-4 rounded-full font-medium tracking-wide hover:bg-gold hover:text-white hover:scale-105 transition-all duration-300 shadow-xl flex items-center gap-2">
-                Ver Catálogo <i class="ph ph-arrow-right"></i>
+                Explorar Catálogo <i class="ph ph-arrow-right"></i>
             </button>
         </div>
     </header>
 
-    <!-- CÓMO FUNCIONA -->
-    <section id="como-funciona" class="py-24 bg-white">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="text-center mb-16 reveal">
-                <h2 class="text-3xl font-heading font-bold text-dark mb-4">Tu proyecto paso a paso</h2>
-                <div class="w-12 h-1 bg-gold mx-auto rounded-full"></div>
-            </div>
-            
-            <div class="grid md:grid-cols-3 gap-12 text-center">
-                <div class="reveal delay-100">
-                    <div class="w-16 h-16 mx-auto bg-light rounded-2xl flex items-center justify-center mb-6 text-wood shadow-sm">
-                        <i class="ph ph-pencil-simple-line text-3xl"></i>
-                    </div>
-                    <h3 class="font-heading font-bold text-xl mb-3">1. Personaliza</h3>
-                    <p class="text-gray-500 text-sm leading-relaxed">Elige un modelo base, define tus medidas exactas y selecciona los acabados ideales para que combine con tu hogar.</p>
-                </div>
-                <div class="reveal delay-200">
-                    <div class="w-16 h-16 mx-auto bg-light rounded-2xl flex items-center justify-center mb-6 text-wood shadow-sm">
-                        <i class="ph ph-wallet text-3xl"></i>
-                    </div>
-                    <h3 class="font-heading font-bold text-xl mb-3">2. Anticipo Seguro</h3>
-                    <p class="text-gray-500 text-sm leading-relaxed">Asegura tu pedido con solo un 30% de anticipo. Iniciamos la producción artesanal en nuestro taller de inmediato.</p>
-                </div>
-                <div class="reveal delay-300">
-                    <div class="w-16 h-16 mx-auto bg-light rounded-2xl flex items-center justify-center mb-6 text-wood shadow-sm">
-                        <i class="ph ph-truck text-3xl"></i>
-                    </div>
-                    <h3 class="font-heading font-bold text-xl mb-3">3. Entrega y Estreno</h3>
-                    <p class="text-gray-500 text-sm leading-relaxed">Recibe tu mueble perfectamente ensamblado y listo para usar en 3-4 semanas. Liquidas al recibir tu pieza.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CATÁLOGO -->
+    <!-- CATÁLOGO MIXTO -->
     <section id="catalogo" class="py-24 bg-light">
         <div class="max-w-7xl mx-auto px-6">
-            <div class="flex justify-between items-end mb-12 reveal">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-12 reveal">
                 <div>
-                    <h2 class="text-3xl font-heading font-bold text-dark mb-2">Nuestro Catálogo Base</h2>
-                    <p class="text-sm text-gray-500 tracking-widest uppercase font-semibold">Inspiración a tu medida</p>
+                    <h2 class="text-3xl font-heading font-bold text-dark mb-2">Colección y Taller</h2>
+                    <p class="text-sm text-gray-500 tracking-widest uppercase font-semibold">Piezas en stock y a medida</p>
                 </div>
             </div>
 
-            <!-- Grid de Productos -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="product-grid">
                 <!-- Inyectado vía JS -->
             </div>
         </div>
     </section>
 
-    <!-- FILOSOFÍA / SOBRE NOSOTROS -->
-    <section class="py-24 bg-white overflow-hidden border-t border-gray-100">
-        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center gap-16">
-            <div class="md:w-1/2 relative reveal">
-                <img src="https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Detalle de carpintería" class="rounded-2xl shadow-xl w-full h-[450px] object-cover">
-                <div class="absolute -bottom-6 -right-6 bg-wood text-white p-6 rounded-2xl shadow-lg hidden md:block">
-                    <p class="text-3xl font-heading font-bold text-gold flex items-center gap-2"><i class="ph-fill ph-seal-check"></i> 100%</p>
-                    <p class="text-sm font-medium mt-1">Hecho a Mano</p>
-                </div>
-            </div>
-            <div class="md:w-1/2 reveal delay-200">
-                <span class="text-gold font-bold tracking-[0.2em] text-xs uppercase mb-2 block">Nuestra Esencia</span>
-                <h2 class="text-3xl md:text-4xl font-heading font-bold text-dark mb-6 leading-tight">El arte de la madera en manos expertas.</h2>
-                <p class="text-gray-600 mb-6 text-sm md:text-base leading-relaxed">En <strong class="text-wood font-semibold">Carpintería Israel</strong>, no fabricamos muebles en serie. Cada pieza que sale de nuestro taller es el resultado de horas de dedicación, utilizando técnicas de ensamblaje precisas combinadas con un diseño estético contemporáneo.</p>
-                <p class="text-gray-600 text-sm md:text-base leading-relaxed">Entendemos que un mueble no solo decora un espacio, sino que forma parte de tu vida diaria. Por eso, seleccionamos personalmente cada veta de madera y aplicamos acabados que protegen tu inversión para que perdure de generación en generación.</p>
-            </div>
-        </div>
-    </section>
-
     <!-- TESTIMONIOS -->
-    <section id="testimonios" class="py-24 bg-light">
+    <section id="testimonios" class="py-24 bg-gradient-to-b from-[#f5efe7] to-light">
         <div class="max-w-7xl mx-auto px-6">
-            <div class="text-center mb-16 reveal">
-                <h2 class="text-3xl font-heading font-bold text-dark mb-4">Lo que dicen nuestros clientes</h2>
-                <div class="w-12 h-1 bg-gold mx-auto rounded-full"></div>
+            <div class="max-w-2xl mb-14 reveal">
+                <p class="text-sm text-gold tracking-[0.25em] uppercase font-semibold mb-3">Testimonios</p>
+                <h2 class="text-3xl md:text-4xl font-heading font-extrabold text-dark mb-4">Clientes que ya viven sus espacios en madera</h2>
+                <p class="text-gray-600 text-base md:text-lg">Cada proyecto combina detalle artesanal, tiempos claros y acompa&ntilde;amiento desde la idea hasta la entrega final.</p>
             </div>
-            
-            <div class="grid md:grid-cols-3 gap-8">
-                <!-- Testimonio 1 -->
-                <div class="bg-white p-8 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] reveal delay-100 relative group hover:-translate-y-1 transition-transform duration-300">
-                    <i class="ph-fill ph-quotes text-4xl text-gray-100 absolute top-6 right-6 group-hover:text-gold/20 transition-colors"></i>
-                    <div class="flex gap-1 text-gold mb-4 text-sm">
-                        <i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i>
-                    </div>
-                    <p class="text-gray-600 mb-8 text-sm leading-relaxed relative z-10">"Encargué una mesa de comedor de roble y el resultado superó mis expectativas. El nivel de detalle en los acabados es increíble. Carpintería Israel hizo exactamente lo que quería."</p>
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-full bg-wood text-white flex items-center justify-center font-bold text-sm">SM</div>
-                        <div>
-                            <p class="font-heading font-bold text-sm text-dark">Sofía M.</p>
-                            <p class="text-[10px] text-green-600 uppercase tracking-wider font-semibold flex items-center gap-1"><i class="ph-fill ph-check-circle"></i> Compra Verificada</p>
-                        </div>
-                    </div>
-                </div>
 
-                <!-- Testimonio 2 -->
-                <div class="bg-white p-8 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] reveal delay-200 relative group hover:-translate-y-1 transition-transform duration-300">
-                    <i class="ph-fill ph-quotes text-4xl text-gray-100 absolute top-6 right-6 group-hover:text-gold/20 transition-colors"></i>
-                    <div class="flex gap-1 text-gold mb-4 text-sm">
-                        <i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i>
-                    </div>
-                    <p class="text-gray-600 mb-8 text-sm leading-relaxed relative z-10">"Excelente servicio desde la cotización hasta la entrega en mi casa. El escritorio minimalista encaja perfecto en mi espacio de home office. Los recomiendo ampliamente."</p>
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-full bg-dark text-white flex items-center justify-center font-bold text-sm">AG</div>
-                        <div>
-                            <p class="font-heading font-bold text-sm text-dark">Alejandro G.</p>
-                            <p class="text-[10px] text-green-600 uppercase tracking-wider font-semibold flex items-center gap-1"><i class="ph-fill ph-check-circle"></i> Compra Verificada</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Testimonio 3 -->
-                <div class="bg-white p-8 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] reveal delay-300 relative group hover:-translate-y-1 transition-transform duration-300">
-                    <i class="ph-fill ph-quotes text-4xl text-gray-100 absolute top-6 right-6 group-hover:text-gold/20 transition-colors"></i>
-                    <div class="flex gap-1 text-gold mb-4 text-sm">
-                        <i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i>
-                    </div>
-                    <p class="text-gray-600 mb-8 text-sm leading-relaxed relative z-10">"Buscaba un librero con medidas muy específicas para mi sala. Israel me asesoró con los materiales y el diseño final es una obra de arte. Vale cada peso invertido."</p>
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-full bg-gold text-white flex items-center justify-center font-bold text-sm">LP</div>
-                        <div>
-                            <p class="font-heading font-bold text-sm text-dark">Laura P.</p>
-                            <p class="text-[10px] text-green-600 uppercase tracking-wider font-semibold flex items-center gap-1"><i class="ph-fill ph-check-circle"></i> Compra Verificada</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- GARANTÍA -->
-    <section class="py-20 bg-wood text-white border-t border-wood/80">
-        <div class="max-w-5xl mx-auto px-6 text-center reveal">
-            <h2 class="text-2xl font-heading font-bold mb-10">El Compromiso de nuestro Taller</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="flex flex-col items-center">
-                    <div class="bg-gold/20 p-4 rounded-full text-gold mb-4">
-                        <i class="ph ph-tree text-2xl"></i>
+                <article class="reveal bg-white rounded-3xl p-8 shadow-[0_18px_45px_rgba(61,43,31,0.08)] border border-white/70">
+                    <div class="flex items-center gap-1 text-gold mb-5">
+                        <i class="ph-fill ph-star"></i>
+                        <i class="ph-fill ph-star"></i>
+                        <i class="ph-fill ph-star"></i>
+                        <i class="ph-fill ph-star"></i>
+                        <i class="ph-fill ph-star"></i>
                     </div>
-                    <h3 class="font-medium mb-2">Madera Sustentable</h3>
-                    <p class="text-xs text-gray-300 max-w-[200px]">Utilizamos maderas de origen responsable con procesos de curado profesional.</p>
-                </div>
-                <div class="flex flex-col items-center">
-                    <div class="bg-gold/20 p-4 rounded-full text-gold mb-4">
-                        <i class="ph ph-ruler text-2xl"></i>
+                    <p class="text-gray-600 leading-7 mb-8">"Nos ayudaron a dise&ntilde;ar un comedor a medida para un espacio complicado y el resultado se ve elegante, firme y hecho para durar."</p>
+                    <div class="flex items-center gap-4">
+                        <div class="h-12 w-12 rounded-full bg-wood text-white flex items-center justify-center font-semibold">AL</div>
+                        <div>
+                            <h3 class="font-heading font-bold text-dark">Ana L.</h3>
+                            <p class="text-sm text-gray-500">Proyecto residencial</p>
+                        </div>
                     </div>
-                    <h3 class="font-medium mb-2">Ajuste Milimétrico</h3>
-                    <p class="text-xs text-gray-300 max-w-[200px]">Las medidas que solicites se respetarán con precisión absoluta para tu espacio.</p>
-                </div>
-                <div class="flex flex-col items-center">
-                    <div class="bg-gold/20 p-4 rounded-full text-gold mb-4">
-                        <i class="ph ph-shield-check text-2xl"></i>
+                </article>
+
+                <article class="reveal bg-dark text-white rounded-3xl p-8 shadow-[0_18px_45px_rgba(0,0,0,0.18)]">
+                    <div class="flex items-center gap-1 text-gold mb-5">
+                        <i class="ph-fill ph-star"></i>
+                        <i class="ph-fill ph-star"></i>
+                        <i class="ph-fill ph-star"></i>
+                        <i class="ph-fill ph-star"></i>
+                        <i class="ph-fill ph-star"></i>
                     </div>
-                    <h3 class="font-medium mb-2">Garantía Estructural</h3>
-                    <p class="text-xs text-gray-300 max-w-[200px]">Garantizamos la firmeza y calidad de nuestros ensambles por años.</p>
-                </div>
+                    <p class="text-gray-200 leading-7 mb-8">"La comunicaci&oacute;n fue excelente. Me compartieron avances, resolvieron detalles del acabado y cumplieron con la entrega tal como se prometi&oacute;."</p>
+                    <div class="flex items-center gap-4">
+                        <div class="h-12 w-12 rounded-full bg-gold text-dark flex items-center justify-center font-semibold">MR</div>
+                        <div>
+                            <h3 class="font-heading font-bold">Marco R.</h3>
+                            <p class="text-sm text-gray-300">Mueble sobre dise&ntilde;o</p>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="reveal bg-white rounded-3xl p-8 shadow-[0_18px_45px_rgba(61,43,31,0.08)] border border-white/70">
+                    <div class="flex items-center gap-1 text-gold mb-5">
+                        <i class="ph-fill ph-star"></i>
+                        <i class="ph-fill ph-star"></i>
+                        <i class="ph-fill ph-star"></i>
+                        <i class="ph-fill ph-star"></i>
+                        <i class="ph-fill ph-star"></i>
+                    </div>
+                    <p class="text-gray-600 leading-7 mb-8">"Pedimos carpinter&iacute;a para negocio y casa. Se nota la calidad del trabajo, desde las uniones hasta la instalaci&oacute;n final. Totalmente recomendados."</p>
+                    <div class="flex items-center gap-4">
+                        <div class="h-12 w-12 rounded-full bg-[#ead8bf] text-wood flex items-center justify-center font-semibold">CS</div>
+                        <div>
+                            <h3 class="font-heading font-bold text-dark">Claudia S.</h3>
+                            <p class="text-sm text-gray-500">Remodelaci&oacute;n integral</p>
+                        </div>
+                    </div>
+                </article>
             </div>
         </div>
     </section>
 
     <!-- FOOTER -->
-    <footer class="bg-dark text-white/70 py-12 text-center text-sm border-t border-white/10">
-        <div class="max-w-7xl mx-auto px-6 flex flex-col items-center">
-            <a href="#" class="font-heading font-extrabold text-2xl tracking-tighter text-white mb-6 flex items-center gap-2">
-                <span class="bg-wood px-2 py-1 rounded-md text-xl leading-none">C</span>I<span class="text-gold">.</span>
-            </a>
-            <p>© 2024 Carpintería Israel. Muebles a medida en México.</p>
-            <p class="text-xs mt-2 text-white/40">Todos los derechos reservados.</p>
+    <footer class="bg-dark text-white">
+        <div class="max-w-7xl mx-auto px-6 py-16">
+            <div class="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr_0.9fr] gap-12">
+                <div class="reveal">
+                    <p class="text-sm text-gold tracking-[0.25em] uppercase font-semibold mb-4">Carpinteria Israel</p>
+                    <h2 class="text-3xl font-heading font-extrabold mb-4">Fabricamos piezas con presencia, detalle y valor duradero.</h2>
+                    <p class="text-gray-300 max-w-xl leading-7 mb-6">Dise&ntilde;amos muebles listos para entrega y proyectos personalizados para hogares, oficinas y espacios comerciales.</p>
+                    <div class="flex flex-wrap gap-3">
+                        <a href="https://wa.me/5219851111691" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-green-500 text-white px-5 py-3 rounded-full font-medium hover:bg-green-600 transition-colors">
+                            <i class="ph ph-whatsapp-logo text-xl"></i> WhatsApp
+                        </a>
+                        <a href="#catalogo" class="inline-flex items-center gap-2 border border-white/15 text-white px-5 py-3 rounded-full font-medium hover:bg-white hover:text-dark transition-colors">
+                            <i class="ph ph-armchair text-xl"></i> Ver catalogo
+                        </a>
+                    </div>
+                </div>
+
+                <div class="reveal">
+                    <h3 class="font-heading font-bold text-xl mb-5">Contacto</h3>
+                    <div class="space-y-4 text-gray-300">
+                        <p class="flex items-start gap-3">
+                            <i class="ph ph-phone-call text-gold text-xl mt-0.5"></i>
+                            <span>+52 985 111 1691</span>
+                        </p>
+                        <p class="flex items-start gap-3">
+                            <i class="ph ph-envelope-simple text-gold text-xl mt-0.5"></i>
+                            <span>contacto@carpinteriaisrael.com</span>
+                        </p>
+                        <p class="flex items-start gap-3">
+                            <i class="ph ph-map-pin text-gold text-xl mt-0.5"></i>
+                            <span>Atencion local y proyectos por cita en Mexico.</span>
+                        </p>
+                        <p class="flex items-start gap-3">
+                            <i class="ph ph-clock text-gold text-xl mt-0.5"></i>
+                            <span>Lunes a sabado, 9:00 a 18:00 hrs.</span>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="reveal">
+                    <h3 class="font-heading font-bold text-xl mb-5">Redes sociales</h3>
+                    <div class="space-y-3">
+                        <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between rounded-2xl border border-white/10 px-5 py-4 text-gray-200 hover:bg-white hover:text-dark transition-colors">
+                            <span class="flex items-center gap-3"><i class="ph ph-instagram-logo text-xl text-gold"></i> Instagram</span>
+                            <i class="ph ph-arrow-up-right"></i>
+                        </a>
+                        <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between rounded-2xl border border-white/10 px-5 py-4 text-gray-200 hover:bg-white hover:text-dark transition-colors">
+                            <span class="flex items-center gap-3"><i class="ph ph-facebook-logo text-xl text-gold"></i> Facebook</span>
+                            <i class="ph ph-arrow-up-right"></i>
+                        </a>
+                        <a href="https://wa.me/5219851111691" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between rounded-2xl border border-white/10 px-5 py-4 text-gray-200 hover:bg-white hover:text-dark transition-colors">
+                            <span class="flex items-center gap-3"><i class="ph ph-whatsapp-logo text-xl text-gold"></i> WhatsApp</span>
+                            <i class="ph ph-arrow-up-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-14 pt-6 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-400">
+                <p>&copy; 2026 Carpinteria Israel. Todos los derechos reservados.</p>
+                <div class="flex items-center gap-5">
+                    <a href="#catalogo" class="hover:text-white transition-colors">Catalogo</a>
+                    <a href="#testimonios" class="hover:text-white transition-colors">Testimonios</a>
+                    <a href="https://wa.me/5219851111691" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">Cotizar</a>
+                </div>
+            </div>
         </div>
     </footer>
 
-    <!-- WHATSAPP FLOTANTE -->
-    <a href="https://wa.me/5219851111691?text=Hola%20Carpintería%20Israel,%20me%20interesa%20un%20mueble%20a%20medida." target="_blank" class="fixed bottom-6 right-6 bg-green-500 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform z-40 group">
-        <i class="ph ph-whatsapp-logo text-3xl"></i>
-        <span class="absolute right-full mr-4 bg-white text-dark text-xs font-medium px-3 py-1.5 rounded-lg shadow-sm opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">Chatea con nosotros</span>
-    </a>
-
-    <!-- MODAL DE PERSONALIZACIÓN -->
-    <div id="custom-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden">
-        <div class="absolute inset-0 bg-dark/60 backdrop-blur-sm" onclick="closeModal()"></div>
-        
-        <div class="relative bg-white w-full max-w-lg rounded-2xl shadow-2xl p-6 md:p-8 m-4 modal-enter max-h-[90vh] overflow-y-auto" id="modal-content">
-            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-dark transition-colors bg-white rounded-full p-1">
+    <!-- MODAL 1: A MEDIDA (MADE_TO_ORDER) -->
+    <div id="mto-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden">
+        <div class="absolute inset-0 bg-dark/60 backdrop-blur-sm" onclick="closeModal('mto-modal')"></div>
+        <div class="relative bg-white w-full max-w-lg rounded-2xl shadow-2xl p-6 md:p-8 m-4 modal-enter max-h-[90vh] overflow-y-auto" id="mto-content">
+            <button onclick="closeModal('mto-modal')" class="absolute top-4 right-4 text-gray-400 hover:text-dark transition-colors bg-white rounded-full p-1">
                 <i class="ph ph-x text-xl"></i>
             </button>
             
             <div class="flex items-center gap-4 mb-6 pb-6 border-b border-gray-100">
-                <img id="modal-img" src="" alt="Producto" class="w-20 h-20 object-cover rounded-lg bg-gray-100 shadow-sm">
+                <img id="mto-img" src="" class="w-20 h-20 object-cover rounded-lg bg-gray-100 shadow-sm">
                 <div>
-                    <h3 id="modal-title" class="font-heading font-bold text-xl text-dark">Nombre del Mueble</h3>
-                    <p id="modal-price" class="text-gold font-medium mt-1">Desde $0 MXN</p>
+                    <span class="text-[10px] bg-gold/10 text-gold font-bold px-2 py-1 rounded-full uppercase tracking-wider mb-1 inline-block">Fabricación a Medida</span>
+                    <h3 id="mto-title" class="font-heading font-bold text-xl text-dark leading-tight">Nombre</h3>
+                    <p id="mto-price" class="text-gray-500 text-sm mt-1">Desde $0 MXN</p>
                 </div>
             </div>
 
-            <form id="custom-form" onsubmit="addToCart(event)" class="space-y-5">
-                <input type="hidden" id="modal-id">
-                
+            <form onsubmit="addMtoToCart(event)" class="space-y-5">
+                <input type="hidden" id="mto-id">
                 <div>
-                    <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Medidas Deseadas (Largo x Ancho x Alto)</label>
-                    <input type="text" id="input-medidas" required placeholder="Ej. 120cm x 60cm x 75cm" class="w-full px-4 py-3 bg-light border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-wood focus:ring-1 focus:ring-wood transition-colors">
+                    <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Medidas Deseadas (L x A x H)</label>
+                    <input type="text" id="mto-medidas" required placeholder="Ej. 120cm x 60cm x 75cm" class="w-full px-4 py-3 bg-light border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-wood focus:ring-1 focus:ring-wood">
                 </div>
-
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Material</label>
-                        <select id="input-material" class="w-full px-4 py-3 bg-light border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-wood focus:ring-1 focus:ring-wood appearance-none">
-                            <option value="Pino / Encino">Pino / Encino (Base)</option>
+                        <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Madera</label>
+                        <select id="mto-material" class="w-full px-4 py-3 bg-light border border-gray-200 rounded-lg text-sm appearance-none">
+                            <option value="Pino/Encino">Pino / Encino</option>
                             <option value="Roble">Roble (+10%)</option>
                             <option value="Parota">Parota (+15%)</option>
-                            <option value="Nogal">Nogal (+25%)</option>
                         </select>
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Acabado</label>
-                        <select id="input-acabado" class="w-full px-4 py-3 bg-light border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-wood focus:ring-1 focus:ring-wood appearance-none">
-                            <option value="Mate Natural">Mate Natural</option>
+                        <select id="mto-acabado" class="w-full px-4 py-3 bg-light border border-gray-200 rounded-lg text-sm appearance-none">
+                            <option value="Mate">Mate Natural</option>
                             <option value="Satinado">Satinado</option>
-                            <option value="Tinta Oscura">Tinta Oscura</option>
+                            <option value="Tinta">Tinta Oscura</option>
                         </select>
                     </div>
                 </div>
-
-                <div class="bg-blue-50 text-blue-800 p-3 rounded-lg text-xs flex gap-2 items-start mt-2">
-                    <i class="ph ph-info mt-0.5"></i>
-                    <p>El precio final podría tener un ligero ajuste dependiendo de la complejidad de las medidas exactas. Lo confirmaremos por WhatsApp.</p>
-                </div>
-
-                <button type="submit" class="w-full bg-wood text-white py-4 rounded-xl font-medium tracking-wide hover:bg-[#2A1E15] transition-colors shadow-md mt-4 flex justify-center items-center gap-2">
-                    <i class="ph ph-shopping-cart-simple text-lg"></i> Agregar al Presupuesto
+                <button type="submit" class="w-full bg-dark text-white py-4 rounded-xl font-medium tracking-wide hover:bg-black transition-colors shadow-md mt-4 flex justify-center items-center gap-2">
+                    <i class="ph ph-plus-circle text-lg"></i> Agregar a Cotización
                 </button>
             </form>
         </div>
     </div>
 
-    <!-- SIDEBAR CARRITO -->
+    <!-- MODAL 2: PROYECTO CUSTOM -->
+    <div id="custom-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden">
+        <div class="absolute inset-0 bg-dark/60 backdrop-blur-sm" onclick="closeModal('custom-modal')"></div>
+        <div class="relative bg-white w-full max-w-lg rounded-2xl shadow-2xl p-6 md:p-8 m-4 modal-enter max-h-[90vh] overflow-y-auto" id="custom-content">
+            <button onclick="closeModal('custom-modal')" class="absolute top-4 right-4 text-gray-400 hover:text-dark transition-colors bg-white rounded-full p-1">
+                <i class="ph ph-x text-xl"></i>
+            </button>
+            
+            <div class="mb-6 pb-6 border-b border-gray-100">
+                <span class="text-[10px] bg-dark text-white font-bold px-2 py-1 rounded-full uppercase tracking-wider mb-3 inline-block">100% Personalizado</span>
+                <h3 id="custom-title" class="font-heading font-bold text-2xl text-dark">Nombre del Proyecto</h3>
+                <p class="text-gray-500 text-sm mt-2">Cuéntanos tu idea, el espacio que tienes y los materiales que te gustan. Lo cotizaremos sin costo.</p>
+            </div>
+
+            <form onsubmit="addCustomToCart(event)" class="space-y-5">
+                <input type="hidden" id="custom-id">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Descripción de tu idea</label>
+                    <textarea id="custom-desc" required rows="4" placeholder="Ej. Necesito un clóset en L para mi recámara principal, me gusta el acabado en Parota y necesito espacio para zapatos..." class="w-full px-4 py-3 bg-light border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-wood focus:ring-1 focus:ring-wood resize-none"></textarea>
+                </div>
+                <button type="submit" class="w-full bg-gold text-white py-4 rounded-xl font-medium tracking-wide hover:bg-yellow-600 transition-colors shadow-md mt-4 flex justify-center items-center gap-2">
+                    <i class="ph ph-chat-text text-lg"></i> Solicitar Cotización
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- SIDEBAR CARRITO INTELIGENTE -->
     <div id="cart-sidebar-wrapper" class="fixed inset-0 z-50 hidden">
         <div class="absolute inset-0 bg-dark/40 backdrop-blur-sm transition-opacity" onclick="toggleCart()"></div>
         
@@ -359,7 +354,7 @@
             <!-- Header -->
             <div class="px-6 py-5 border-b border-gray-100 flex items-center justify-between bg-light/50">
                 <h2 class="font-heading font-bold text-xl flex items-center gap-2">
-                    <i class="ph ph-shopping-bag"></i> Tu Cotización
+                    <i class="ph ph-shopping-bag"></i> Tu Resumen
                 </h2>
                 <button onclick="toggleCart()" class="p-2 bg-white rounded-full text-gray-400 hover:text-dark shadow-sm">
                     <i class="ph ph-x text-lg"></i>
@@ -367,276 +362,425 @@
             </div>
 
             <!-- Items -->
-            <div id="cart-items" class="flex-1 overflow-y-auto p-6 space-y-6">
+            <div id="cart-items" class="flex-1 overflow-y-auto p-6 space-y-4">
                 <!-- Vacio por defecto -->
             </div>
 
-            <!-- Totals -->
-            <div class="border-t border-gray-100 bg-light p-6">
-                <div class="space-y-3 mb-6">
-                    <div class="flex justify-between text-sm text-gray-500">
-                        <span>Subtotal estimado</span>
-                        <span id="cart-subtotal" class="font-medium text-dark">$0 MXN</span>
-                    </div>
-                    <div class="flex justify-between text-base font-bold text-wood">
-                        <span>Anticipo requerido (30%)</span>
-                        <span id="cart-anticipo">$0 MXN</span>
-                    </div>
+            <!-- Matemáticas Inteligentes & Checkout -->
+            <!-- Matemáticas Inteligentes & Checkout -->
+            <div class="border-t border-gray-100 bg-white p-6 shadow-[0_-4px_20px_rgba(0,0,0,0.03)] z-10">
+                
+                <!-- Contenedor inyectado por JS -->
+                <div id="cart-totals-container"></div>
+
+                <!-- FLUJO A: Pago Directo (Solo se muestra si TODO el carrito es READY) -->
+                <div id="checkout-direct-container" class="hidden">
+                    <button onclick="handleDirectPayment()" class="w-full bg-dark text-white py-4 rounded-xl font-medium tracking-wide hover:bg-black transition-colors shadow-sm flex justify-center items-center gap-2 group">
+                        <i class="ph ph-credit-card text-xl group-hover:scale-110 transition-transform"></i> Proceder al Pago Seguro
+                    </button>
+                    <p class="text-center text-[10px] text-gray-400 mt-3 flex items-center justify-center gap-1">
+                        <i class="ph-fill ph-lock-key"></i> Envío rápido y pago protegido.
+                    </p>
                 </div>
 
-                <div class="space-y-3">
-                    <button onclick="handleWhatsAppOrder()" class="w-full bg-green-500 text-white py-3.5 rounded-xl font-medium tracking-wide hover:bg-green-600 transition-colors shadow-sm flex justify-center items-center gap-2 group">
-                        <i class="ph ph-whatsapp-logo text-lg group-hover:scale-110 transition-transform"></i> Enviar pedido por WhatsApp
+                <!-- FLUJO B: Asesoría WhatsApp (Se muestra si hay productos a medida) -->
+                <div id="checkout-whatsapp-container" class="hidden">
+                    <div class="bg-light p-4 rounded-xl border border-gray-200 mb-4 space-y-3">
+                        <input type="text" id="client-name" placeholder="Tu Nombre Completo" class="w-full px-4 py-2.5 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-wood" required>
+                        <div class="relative">
+                            <span class="absolute left-4 top-2.5 text-gray-400 text-sm font-medium">+52</span>
+                            <input type="tel" id="client-phone" placeholder="WhatsApp (10 dígitos)" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full pl-12 px-4 py-2.5 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-wood" required>
+                        </div>
+                    </div>
+
+                    <button onclick="handleSmartCheckout()" class="w-full bg-green-500 text-white py-4 rounded-xl font-medium tracking-wide hover:bg-green-600 transition-colors shadow-sm flex justify-center items-center gap-2 group">
+                        <i class="ph ph-whatsapp-logo text-xl group-hover:scale-110 transition-transform"></i> Validar Pedido con Asesor
                     </button>
-                    <button onclick="handlePayment()" class="w-full bg-dark text-white py-3.5 rounded-xl font-medium tracking-wide hover:bg-black transition-colors shadow-sm flex justify-center items-center gap-2">
-                        <i class="ph ph-credit-card text-lg"></i> Pagar Anticipo Ahora
-                    </button>
+                    <p class="text-center text-[10px] text-gray-400 mt-3 flex items-center justify-center gap-1">
+                        <i class="ph-fill ph-info"></i> Validaremos detalles de fabricación antes de cobrar.
+                    </p>
                 </div>
             </div>
+
         </div>
     </div>
 
     <!-- SCRIPT -->
     <script>
-        // 1. Datos de Productos (Catálogo)
+        // 1. Catálogo con los 3 tipos de producto
         const products = [
-            { id: 'p1', name: 'Mesa de Comedor Minimalista', basePrice: 12500, image: 'https://images.unsplash.com/photo-1577140917170-285929fb55b7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', badge: 'Premium' },
-            { id: 'p2', name: 'Escritorio Ejecutivo', basePrice: 8500, image: 'https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', badge: 'Más Vendido' },
-            { id: 'p3', name: 'Cama de Autor (Matrimonial)', basePrice: 16400, image: 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', badge: null },
-            { id: 'p4', name: 'Librero Modular', basePrice: 9800, image: 'https://images.unsplash.com/photo-1594620302200-9a762244a156?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', badge: null },
-            { id: 'p5', name: 'Consola Recibidor', basePrice: 5300, image: 'https://images.unsplash.com/photo-1604578762246-41134e37f9cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', badge: null },
-            { id: 'p6', name: 'Mesa Centro Orgánica', basePrice: 6500, image: 'https://images.unsplash.com/photo-1532372576444-dda954194ad0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', badge: 'Tendencia' }
+            { id: 'p1', type: 'READY', name: 'Silla de Comedor Pino', basePrice: 1500, image: 'https://images.unsplash.com/photo-1592078615290-033ee584e267?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', badge: 'En Stock' },
+            { id: 'p2', type: 'READY', name: 'Buró Flotante Minimalista', basePrice: 2200, image: 'https://images.unsplash.com/photo-1532372576444-dda954194ad0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', badge: 'Envío Inmediato' },
+            { id: 'p3', type: 'MADE_TO_ORDER', name: 'Mesa de Comedor Base', basePrice: 12500, image: 'https://images.unsplash.com/photo-1577140917170-285929fb55b7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', badge: 'Fabricación' },
+            { id: 'p4', type: 'MADE_TO_ORDER', name: 'Escritorio Ejecutivo', basePrice: 8500, image: 'https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', badge: 'Fabricación' },
+            { id: 'p5', type: 'CUSTOM', name: 'Clóset Empotrado', basePrice: 0, image: 'https://images.unsplash.com/photo-1594620302200-9a762244a156?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', badge: 'Proyecto Especial' },
+            { id: 'p6', type: 'CUSTOM', name: 'Cocina Integral Madera', basePrice: 0, image: 'https://images.unsplash.com/photo-1556910103-1c02745a872f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', badge: 'Proyecto Especial' }
         ];
 
         let cart = [];
 
-        const formatMoney = (amount) => {
-            return new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' }).format(amount);
-        };
+        const formatMoney = (amount) => new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' }).format(amount);
 
         document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
-                const loader = document.getElementById('loader');
-                loader.style.opacity = '0';
-                setTimeout(() => loader.remove(), 500);
+                document.getElementById('loader').style.opacity = '0';
+                setTimeout(() => document.getElementById('loader').remove(), 500);
             }, 800);
-
             renderCatalog();
             setupScrollAnimations();
-            
-            window.addEventListener('scroll', () => {
-                const nav = document.getElementById('navbar');
-                if (window.scrollY > 50) {
-                    nav.classList.add('shadow-sm');
-                } else {
-                    nav.classList.remove('shadow-sm');
-                }
-            });
         });
 
+        // 2. Renderizado Dinámico
         function renderCatalog() {
             const grid = document.getElementById('product-grid');
-            grid.innerHTML = products.map((p, index) => `
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_2px_10px_rgba(0,0,0,0.03)] hover:shadow-xl transition-all duration-300 group reveal delay-${(index % 3 + 1) * 100}">
-                    <div class="relative h-64 overflow-hidden bg-gray-100">
-                        ${p.badge ? `<span class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm text-dark text-[10px] font-bold px-3 py-1.5 rounded-full z-10 shadow-sm uppercase tracking-wider">${p.badge}</span>` : ''}
-                        <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            grid.innerHTML = products.map((p, index) => {
+                
+                // Estilos de Badge por tipo
+                let badgeClass = 'bg-white/90 text-dark';
+                if(p.type === 'READY') badgeClass = 'bg-green-100 text-green-800 border border-green-200';
+                if(p.type === 'CUSTOM') badgeClass = 'bg-dark text-white';
+
+                // Lógica de Precios
+                let priceHTML = '';
+                if(p.type === 'READY') priceHTML = `<span class="font-bold text-lg text-dark">${formatMoney(p.basePrice)}</span>`;
+                if(p.type === 'MADE_TO_ORDER') priceHTML = `<span class="text-gray-500">Desde <span class="font-semibold text-dark">${formatMoney(p.basePrice)}</span></span>`;
+                if(p.type === 'CUSTOM') priceHTML = `<span class="text-gold font-medium flex items-center gap-1"><i class="ph ph-ruler"></i> Se cotiza a medida</span>`;
+
+                // Botones dinámicos
+                let btnHTML = '';
+                if(p.type === 'READY') {
+                    btnHTML = `<button onclick="addReadyToCart('${p.id}')" class="w-full py-3 bg-wood text-white rounded-xl font-medium text-sm hover:bg-[#2A1E15] transition-colors flex justify-center items-center gap-2">Agregar directo <i class="ph ph-shopping-cart-simple"></i></button>`;
+                } else if(p.type === 'MADE_TO_ORDER') {
+                    btnHTML = `<button onclick="openMtoModal('${p.id}')" class="w-full py-3 border border-dark text-dark rounded-xl font-medium text-sm hover:bg-dark hover:text-white transition-colors flex justify-center items-center gap-2">Configurar Medida <i class="ph ph-sliders-horizontal"></i></button>`;
+                } else if(p.type === 'CUSTOM') {
+                    btnHTML = `<button onclick="openCustomModal('${p.id}')" class="w-full py-3 border border-gold text-gold rounded-xl font-medium text-sm hover:bg-gold hover:text-white transition-colors flex justify-center items-center gap-2">Contar mi idea <i class="ph ph-chat-circle"></i></button>`;
+                }
+
+                return `
+                    <div class="bg-white rounded-2xl overflow-hidden shadow-[0_2px_10px_rgba(0,0,0,0.03)] hover:shadow-xl transition-all duration-300 group reveal delay-${(index % 3 + 1) * 100}">
+                        <div class="relative h-64 overflow-hidden bg-gray-100">
+                            <span class="absolute top-4 right-4 ${badgeClass} text-[10px] font-bold px-3 py-1.5 rounded-full z-10 uppercase tracking-wider shadow-sm">${p.badge}</span>
+                            <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        </div>
+                        <div class="p-6 flex flex-col h-[180px]">
+                            <h3 class="font-heading font-bold text-lg mb-1 line-clamp-1">${p.name}</h3>
+                            <div class="text-sm mb-auto">${priceHTML}</div>
+                            <div class="mt-4">${btnHTML}</div>
+                        </div>
                     </div>
-                    <div class="p-6">
-                        <h3 class="font-heading font-bold text-lg mb-1">${p.name}</h3>
-                        <p class="text-sm text-gray-500 mb-4">Desde ${formatMoney(p.basePrice)}</p>
-                        <button onclick="openModal('${p.id}')" class="w-full py-3 border border-dark text-dark rounded-xl font-medium text-sm hover:bg-dark hover:text-white transition-colors flex justify-center items-center gap-2">
-                            Cotizar Medida <i class="ph ph-ruler"></i>
-                        </button>
-                    </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
         }
 
-        function openModal(productId) {
-            const product = products.find(p => p.id === productId);
-            if (!product) return;
-
-            document.getElementById('modal-id').value = product.id;
-            document.getElementById('modal-title').textContent = product.name;
-            document.getElementById('modal-price').textContent = `Precio base estimado: ${formatMoney(product.basePrice)}`;
-            document.getElementById('modal-img').src = product.image;
-            
-            document.getElementById('custom-form').reset();
-
-            const modal = document.getElementById('custom-modal');
-            const content = document.getElementById('modal-content');
-            modal.classList.remove('hidden');
-            void modal.offsetWidth; 
-            content.classList.add('modal-enter-active');
-            content.classList.remove('modal-enter');
-            
-            document.body.style.overflow = 'hidden';
+        // 3. Funciones de Flujo (READY, MTO, CUSTOM)
+        
+        // Agregar directo al carrito (READY)
+        function addReadyToCart(id) {
+            const product = products.find(p => p.id === id);
+            cart.push({
+                id: Date.now().toString(),
+                productId: product.id,
+                type: 'READY',
+                name: product.name,
+                image: product.image,
+                price: product.basePrice
+            });
+            updateCartUI();
+            toggleCart(); // Abrir carrito para confirmar
         }
 
-        function closeModal() {
-            const modal = document.getElementById('custom-modal');
-            const content = document.getElementById('modal-content');
+        // Modal A Medida (MTO)
+        function openMtoModal(id) {
+            const product = products.find(p => p.id === id);
+            document.getElementById('mto-id').value = product.id;
+            document.getElementById('mto-title').textContent = product.name;
+            document.getElementById('mto-price').textContent = `Base: ${formatMoney(product.basePrice)}`;
+            document.getElementById('mto-img').src = product.image;
+            document.getElementById('mto-medidas').value = '';
             
-            content.classList.remove('modal-enter-active');
-            content.classList.add('modal-enter');
-            
-            setTimeout(() => {
-                modal.classList.add('hidden');
-                document.body.style.overflow = 'auto';
-            }, 300);
+            toggleModal('mto-modal', 'mto-content', true);
         }
 
-        function addToCart(event) {
-            event.preventDefault();
+        function addMtoToCart(e) {
+            e.preventDefault();
+            const id = document.getElementById('mto-id').value;
+            const product = products.find(p => p.id === id);
             
-            const productId = document.getElementById('modal-id').value;
-            const product = products.find(p => p.id === productId);
-            
-            const medidas = document.getElementById('input-medidas').value;
-            const material = document.getElementById('input-material').value;
-            const acabado = document.getElementById('input-acabado').value;
-
+            const material = document.getElementById('mto-material').value;
             let finalPrice = product.basePrice;
             if(material === 'Roble') finalPrice *= 1.10;
             if(material === 'Parota') finalPrice *= 1.15;
-            if(material === 'Nogal') finalPrice *= 1.25;
 
-            const cartItem = {
+            cart.push({
                 id: Date.now().toString(),
                 productId: product.id,
+                type: 'MADE_TO_ORDER',
                 name: product.name,
                 image: product.image,
                 price: finalPrice,
-                medidas,
-                material,
-                acabado
-            };
-
-            cart.push(cartItem);
-            updateCartUI();
-            closeModal();
+                medidas: document.getElementById('mto-medidas').value,
+                material: material,
+                acabado: document.getElementById('mto-acabado').value
+            });
             
+            updateCartUI();
+            toggleModal('mto-modal', 'mto-content', false);
             setTimeout(toggleCart, 300);
         }
 
-        function removeFromCart(itemId) {
-            cart = cart.filter(item => item.id !== itemId);
-            updateCartUI();
+        // Modal Proyecto Custom
+        function openCustomModal(id) {
+            const product = products.find(p => p.id === id);
+            document.getElementById('custom-id').value = product.id;
+            document.getElementById('custom-title').textContent = product.name;
+            document.getElementById('custom-desc').value = '';
+            
+            toggleModal('custom-modal', 'custom-content', true);
         }
 
+        function addCustomToCart(e) {
+            e.preventDefault();
+            const id = document.getElementById('custom-id').value;
+            const product = products.find(p => p.id === id);
+            
+            cart.push({
+                id: Date.now().toString(),
+                productId: product.id,
+                type: 'CUSTOM',
+                name: product.name,
+                image: product.image,
+                price: 0,
+                descripcion: document.getElementById('custom-desc').value
+            });
+            
+            updateCartUI();
+            toggleModal('custom-modal', 'custom-content', false);
+            setTimeout(toggleCart, 300);
+        }
+
+        // Utilidad para Modales
+        function toggleModal(modalId, contentId, show) {
+            const modal = document.getElementById(modalId);
+            const content = document.getElementById(contentId);
+            if(show) {
+                modal.classList.remove('hidden');
+                void modal.offsetWidth;
+                content.classList.remove('modal-enter');
+                content.classList.add('modal-enter-active');
+                document.body.style.overflow = 'hidden';
+            } else {
+                content.classList.remove('modal-enter-active');
+                content.classList.add('modal-enter');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                    document.body.style.overflow = 'auto';
+                }, 300);
+            }
+        }
+        function closeModal(modalId) { 
+            const contentId = modalId === 'mto-modal' ? 'mto-content' : 'custom-content';
+            toggleModal(modalId, contentId, false); 
+        }
+
+        // 4. Lógica de Carrito Inteligente
         function toggleCart() {
             const wrapper = document.getElementById('cart-sidebar-wrapper');
             const sidebar = document.getElementById('cart-sidebar');
-            
             if (wrapper.classList.contains('hidden')) {
                 wrapper.classList.remove('hidden');
                 void wrapper.offsetWidth;
-                sidebar.classList.add('sidebar-enter-active');
                 sidebar.classList.remove('sidebar-enter');
+                sidebar.classList.add('sidebar-enter-active');
                 document.body.style.overflow = 'hidden';
             } else {
                 sidebar.classList.remove('sidebar-enter-active');
                 sidebar.classList.add('sidebar-enter');
                 setTimeout(() => {
                     wrapper.classList.add('hidden');
-                    if(document.getElementById('custom-modal').classList.contains('hidden')){
-                         document.body.style.overflow = 'auto';
+                    if(document.querySelectorAll('.fixed:not(.hidden)').length <= 2) {
+                        document.body.style.overflow = 'auto';
                     }
                 }, 400);
             }
         }
 
-        function updateCartUI() {
+function updateCartUI() {
             const container = document.getElementById('cart-items');
             const badge = document.getElementById('cart-badge');
+            const totalsContainer = document.getElementById('cart-totals-container');
             
-            if (cart.length > 0) {
-                badge.textContent = cart.length;
-                badge.classList.remove('opacity-0');
-            } else {
-                badge.classList.add('opacity-0');
-            }
+            // Los dos contenedores de checkout
+            const directCheckout = document.getElementById('checkout-direct-container');
+            const whatsappCheckout = document.getElementById('checkout-whatsapp-container');
+            
+            // Actualizar Badge
+            badge.textContent = cart.length;
+            cart.length > 0 ? badge.classList.remove('opacity-0') : badge.classList.add('opacity-0');
 
             if (cart.length === 0) {
-                container.innerHTML = `
-                    <div class="h-full flex flex-col items-center justify-center text-gray-400 space-y-4">
-                        <i class="ph ph-package text-5xl opacity-50"></i>
-                        <p class="text-sm">Tu cotización está vacía.</p>
-                    </div>
-                `;
+                container.innerHTML = `<div class="h-full flex flex-col items-center justify-center text-gray-400 space-y-4 pt-10"><i class="ph ph-package text-5xl opacity-50"></i><p class="text-sm">Tu carrito está vacío.</p></div>`;
+                totalsContainer.innerHTML = '';
+                directCheckout.classList.add('hidden');
+                whatsappCheckout.classList.add('hidden');
+                return;
+            }
+
+            // Lógica para decidir qué botón mostrar
+            // Si TODOS los items son 'READY', es un checkout directo. Si no, va a WhatsApp.
+            const isOnlyReadyItems = cart.every(item => item.type === 'READY');
+            
+            if (isOnlyReadyItems) {
+                directCheckout.classList.remove('hidden');
+                whatsappCheckout.classList.add('hidden');
             } else {
-                container.innerHTML = cart.map(item => `
+                directCheckout.classList.add('hidden');
+                whatsappCheckout.classList.remove('hidden');
+            }
+
+            // Renderizar Items en el carrito
+            container.innerHTML = cart.map(item => {
+                let details = '';
+                let priceDisplay = '';
+                
+                if(item.type === 'READY') {
+                    details = `<p class="text-green-600 font-medium flex items-center gap-1"><i class="ph-fill ph-check-circle"></i> Envío Inmediato</p>`;
+                    priceDisplay = formatMoney(item.price);
+                } else if(item.type === 'MADE_TO_ORDER') {
+                    details = `<p>Mat: ${item.material} (${item.acabado})</p><p>Med: ${item.medidas}</p>`;
+                    priceDisplay = formatMoney(item.price);
+                } else {
+                    details = `<p class="italic">"${item.descripcion}"</p>`;
+                    priceDisplay = `<span class="text-gold">A Cotizar</span>`;
+                }
+
+                return `
                     <div class="flex gap-4 p-4 bg-light rounded-xl border border-gray-100 relative group">
-                        <img src="${item.image}" alt="${item.name}" class="w-20 h-20 object-cover rounded-lg shadow-sm">
-                        <div class="flex-1">
-                            <h4 class="font-heading font-bold text-sm text-dark">${item.name}</h4>
-                            <div class="text-[11px] text-gray-500 mt-1 space-y-0.5">
-                                <p><span class="font-medium text-gray-700">Mat:</span> ${item.material} - ${item.acabado}</p>
-                                <p><span class="font-medium text-gray-700">Med:</span> ${item.medidas}</p>
-                            </div>
-                            <p class="font-medium text-wood mt-2 text-sm">${formatMoney(item.price)}</p>
+                        <img src="${item.image}" class="w-16 h-16 md:w-20 md:h-20 object-cover rounded-lg shadow-sm">
+                        <div class="flex-1 pr-6">
+                            <span class="text-[9px] uppercase font-bold text-gray-400 tracking-wider">${item.type === 'READY' ? 'Stock' : item.type === 'MADE_TO_ORDER' ? 'A Medida' : 'Proyecto'}</span>
+                            <h4 class="font-heading font-bold text-sm text-dark leading-tight mt-0.5 mb-1">${item.name}</h4>
+                            <div class="text-[11px] text-gray-500 space-y-0.5 line-clamp-2">${details}</div>
+                            <p class="font-bold text-wood mt-2 text-sm">${priceDisplay}</p>
                         </div>
-                        <button onclick="removeFromCart('${item.id}')" class="absolute top-2 right-2 text-gray-300 hover:text-red-500 transition-colors p-1">
+                        <button onclick="removeFromCart('${item.id}')" class="absolute top-3 right-3 text-gray-300 hover:text-red-500 transition-colors bg-white rounded-full p-1 shadow-sm">
                             <i class="ph ph-trash"></i>
                         </button>
                     </div>
-                `).join('');
-            }
+                `;
+            }).join('');
 
-            const subtotal = cart.reduce((sum, item) => sum + item.price, 0);
-            const anticipo = subtotal * 0.30;
+            // Matemáticas
+            let sumReady = 0;
+            let sumMTO = 0;
+            let countCustom = 0;
 
-            document.getElementById('cart-subtotal').textContent = formatMoney(subtotal);
-            document.getElementById('cart-anticipo').textContent = formatMoney(anticipo);
-        }
-
-        function handleWhatsAppOrder() {
-            if (cart.length === 0) {
-                alert("Por favor, agrega productos a tu cotización antes de continuar.");
-                return;
-            }
-
-            let message = "Hola Carpintería Israel, me gustaría iniciar el pedido de los siguientes muebles a medida:\n\n";
-            
-            cart.forEach((item, index) => {
-                message += `${index + 1}. *${item.name}*\n`;
-                message += `   - Material: ${item.material}\n`;
-                message += `   - Acabado: ${item.acabado}\n`;
-                message += `   - Medidas: ${item.medidas}\n`;
-                message += `   - Precio est: ${formatMoney(item.price)}\n\n`;
+            cart.forEach(i => {
+                if(i.type === 'READY') sumReady += i.price;
+                else if(i.type === 'MADE_TO_ORDER') sumMTO += i.price;
+                else if(i.type === 'CUSTOM') countCustom++;
             });
 
-            const subtotal = cart.reduce((sum, item) => sum + item.price, 0);
-            message += `*Subtotal Estimado:* ${formatMoney(subtotal)}\n`;
-            message += `*Anticipo requerido (30%):* ${formatMoney(subtotal * 0.30)}\n\n`;
-            message += "Quedo atento(a) para validar las medidas finales y proceder con mi pedido.";
+            const anticipoMTO = sumMTO * 0.30;
+            const pagarHoy = sumReady + anticipoMTO;
 
-            const encodedMessage = encodeURIComponent(message);
-            const whatsappNumber = "5219851111691"; // Sustituir con tu número
-            window.open(`https://wa.me/${whatsappNumber}?text=${encodedMessage}`, '_blank');
+            // HTML de Totales
+            let mathHTML = `<div class="space-y-2 mb-5 pb-4 border-b border-gray-100">`;
+            
+            if(sumReady > 0) {
+                mathHTML += `<div class="flex justify-between text-sm text-gray-600"><span>Artículos en Stock (100%)</span><span>${formatMoney(sumReady)}</span></div>`;
+            }
+            if(sumMTO > 0) {
+                mathHTML += `<div class="flex justify-between text-sm text-gray-600"><span>Muebles a Medida (Anticipo 30%)</span><span>${formatMoney(anticipoMTO)}</span></div>`;
+            }
+            if(countCustom > 0) {
+                mathHTML += `<div class="text-xs text-gold font-medium mt-2 flex items-center gap-1"><i class="ph-fill ph-chat-circle"></i> + ${countCustom} proyecto(s) a cotizar.</div>`;
+            }
+            
+            mathHTML += `</div>`;
+            mathHTML += `<div class="flex justify-between items-end mb-4">
+                            <div>
+                                <span class="block text-xs font-bold text-gray-400 uppercase tracking-wider">Total a Pagar Hoy</span>
+                            </div>
+                            <span class="text-2xl font-bold text-dark leading-none">${formatMoney(pagarHoy)}</span>
+                         </div>`;
+
+            totalsContainer.innerHTML = mathHTML;
         }
 
-        function handlePayment() {
-            if (cart.length === 0) {
-                alert("Por favor, agrega productos antes de continuar.");
-                return;
+        // Función para procesar productos READY (Envío y Pago Directo)
+        function handleDirectPayment() {
+            const total = cart.reduce((sum, item) => sum + item.price, 0);
+            
+            // Aquí conectarías con MercadoPago, Stripe, o redirigirías a tu página de /checkout
+            console.log("Iniciando checkout directo por:", total);
+            
+            // Ejemplo de redirección (Simulado):
+            alert("Redirigiendo a pasarela de pago seguro para solicitar dirección de envío y cobrar " + formatMoney(total));
+            // window.location.href = "checkout.html"; 
+            // o window.location.href = "https://mpago.la/tu-link";
+        }
+
+        function removeFromCart(id) {
+            cart = cart.filter(i => i.id !== id);
+            updateCartUI();
+        }
+
+        // 5. Checkout Inteligente a WhatsApp
+        function handleSmartCheckout() {
+            if (cart.length === 0) return;
+
+            const name = document.getElementById('client-name').value.trim();
+            const phone = document.getElementById('client-phone').value.trim();
+
+            if (!name) return alert("Por favor, ingresa tu nombre.");
+            if (phone.length < 10) return alert("Ingresa un WhatsApp válido de 10 dígitos.");
+
+            // LOGICA SILENCIOSA DE GUARDADO DE LEAD (Webhook/BD)
+            console.log("LEAD CAPTURADO:", { name, phone, cart });
+
+            // Creación de Mensaje Formateado
+            let msg = `Hola Carpintería Israel, soy *${name}*.\nTe envío mi pedido web:\n\n`;
+
+            const listos = cart.filter(i => i.type === 'READY');
+            const aMedida = cart.filter(i => i.type === 'MADE_TO_ORDER');
+            const especiales = cart.filter(i => i.type === 'CUSTOM');
+
+            if(listos.length > 0) {
+                msg += `📦 *STOCK (Envío Inmediato)*\n`;
+                listos.forEach(i => msg += `• ${i.name} - ${formatMoney(i.price)}\n`);
+                msg += `\n`;
             }
-            alert("Redirigiendo a pasarela de pago segura (Simulación). Podrás pagar de forma segura el anticipo del 30% con Tarjeta o Transferencia.");
-            window.open('https://mpago.la/1XUdukS', '_blank');
+
+            if(aMedida.length > 0) {
+                msg += `🛠️ *A MEDIDA (Fabricación)*\n`;
+                aMedida.forEach(i => msg += `• ${i.name}\n  Mat: ${i.material} | Med: ${i.medidas}\n  Valor: ${formatMoney(i.price)}\n`);
+                msg += `\n`;
+            }
+
+            if(especiales.length > 0) {
+                msg += `✨ *PROYECTOS ESPECIALES*\n`;
+                especiales.forEach(i => msg += `• ${i.name}\n  Idea: "${i.descripcion}"\n`);
+                msg += `\n`;
+            }
+
+            let sumR = listos.reduce((acc, i) => acc + i.price, 0);
+            let sumM = aMedida.reduce((acc, i) => acc + i.price, 0);
+            let totalHoy = sumR + (sumM * 0.30);
+
+            msg += `💳 *RESUMEN DE PAGO*\n`;
+            msg += `Total a pagar hoy: *${formatMoney(totalHoy)}*\n`;
+            if(sumM > 0) msg += `_(Incluye stock + 30% anticipo de fabricación)_\n`;
+            msg += `\nQuedo a la espera para coordinar el pago${especiales.length > 0 ? ' y cotizar mi proyecto especial.' : '.'}`;
+
+            window.open(`https://wa.me/5219851111691?text=${encodeURIComponent(msg)}`, '_blank');
         }
 
         function setupScrollAnimations() {
             const reveals = document.querySelectorAll('.reveal');
             const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('active');
-                    }
-                });
+                entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
             }, { threshold: 0.1 });
-
-            reveals.forEach(reveal => { observer.observe(reveal); });
+            reveals.forEach(reveal => observer.observe(reveal));
         }
     </script>
 </body>
